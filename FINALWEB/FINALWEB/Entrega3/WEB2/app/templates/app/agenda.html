@@ -1,0 +1,64 @@
+{% extends 'app/base.html' %}
+
+{% load static %}
+
+{% block contenido1 %}
+<script src="https://www.paypal.com/sdk/js?client-id=AXpx820hxuybw9HS0n3ORmQz5WX6uMLzQPx8ZNefNzfskL0RSHTNxgNPVqOrLCCex4PP9m0Hmz2tJWaH&currency=USD"></script>
+<section class="ticket-section section-padding">
+    <div class="section-overlay"></div>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-6 col-10 mx-auto">
+                <form class="custom-form ticket-form mb-5 mb-lg-0" action="#" method="post" role="form">
+                    <h2 class="text-center mb-4">Agenda aquí</h2>
+
+                    <div action="" class="ticket-form-body" method="post">
+                        
+                        {% csrf_token %}
+                        
+                        {{ form1 }}
+                        
+                        <br>
+
+                <div class="col-lg-5 col-md-10 col-5 mx-auto">
+                    <button type="submit" class="form-control">Agendar</button>
+                </div><br>
+                    <div class="container1">
+                        <div id="paypal-button-container"></div>
+                            <script>
+                                paypal.Buttons({
+                                    style:{
+                                    color: 'blue',
+                                    shape: 'pill',
+                                    label: 'pay'
+                                },
+                                    createOrder: function(data, actions) {
+                                        return actions.order.create({
+                                            purchase_units: [{
+                                                amount: {
+                                                    value: '130000',
+                                                    currency_code: 'USD'
+                                                },
+                                            description: 'Alquiler de auto por 72 horas'
+                                        }]
+                                });
+                            },
+                                    onApprove: function(data, actions) {
+                                        return actions.order.capture().then(function(details) {
+                                            console.log(details);
+                                            alert('Pago realizado correctamente');
+                                        });
+                                    },
+                                    onCancel: function(data) {
+                                        alert("Pago cancelado");
+                                        console.log(data);
+                                    }
+                                    }).render('#paypal-button-container');
+                        </script>
+                    </div>
+            </div>
+        </div>
+    </div>
+</section>
+{%endblock%}
